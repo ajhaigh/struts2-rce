@@ -31,7 +31,14 @@ jobs:
 
       # Run a IQ scan
       - name: Nexus IQ for GitHub Actions
-      - uses: sonatype-nexus-community/iq-github-action@1.1.0
+      uses: sonatype-nexus-community/iq-github-action@master
+      with:
+        serverUrl: http://ajhiqserver.ngrok.io
+        username: ahaigh
+        password: ${{ secrets.password }}
+        applicationId: struts2-rce__ajhaigh
+        stage: Build
+        target: ./target/
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
