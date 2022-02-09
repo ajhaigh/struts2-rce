@@ -35,7 +35,7 @@ jobs:
       with:
         serverUrl: http://ajhiqserver.ngrok.io
         username: ahaigh
-        password: ${{ secrets.password }}
+        password: ${{ STRUTS_SECRET }}
         applicationId: struts2-rce__ajhaigh
         stage: Build
         target: ./target/
