@@ -16,7 +16,7 @@ pipeline {
          steps {
             // Run the maven build
             sh 'mvn --version'
-            sh "./mvnw -Dmaven.test.failure.ignore clean install"
+            sh 'mvn -Dmaven.test.failure.ignore clean install'
 //            sh 'npm install'
          }
       }
