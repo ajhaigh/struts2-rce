@@ -28,7 +28,7 @@ pipeline {
       }
 
        stage('Create TAG') {
-          echo "Create a Tag
+          echo "Create a Tag"
 //        createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '''{
 //            "IQScan": "\${policyEvaluation.applicationCompositionReportUrl}",
 //            "JenkinsBuild": "\${BUILD_URL}"
