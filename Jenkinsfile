@@ -1,4 +1,3 @@
-
 pipeline {
    agent {
       docker {
@@ -8,7 +7,7 @@ pipeline {
 
    stages {
       stage('Preparation') {
-         checkout scm
+//         checkout scm
       }
 
       stage('Build') {
@@ -16,7 +15,7 @@ pipeline {
             // Run the maven build
             sh 'mvn --version'
             sh "./mvnw -Dmaven.test.failure.ignore clean install"
-            sh 'nom install'
+//            sh 'npm install'
          }
       }
 
