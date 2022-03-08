@@ -8,9 +8,9 @@ pipeline {
    }
 
    stages {
-      stage('Preparation') {
+//      stage('Preparation') {
 //         checkout scm
-      }
+//      }
 
       stage('Build') {
          steps {
@@ -31,16 +31,20 @@ pipeline {
       }
 
        stage('Create TAG') {
-          echo "Create a Tag"
+          steps {
+             echo "Create a Tag"
 //        createTag nexusInstanceId: 'nxrm3', tagAttributesJson: '''{
 //            "IQScan": "\${policyEvaluation.applicationCompositionReportUrl}",
 //            "JenkinsBuild": "\${BUILD_URL}"
 //          }''', tagName: "IQ-Policy-Evaluation_${currentBuild.number}"
+          }
        }
 
        stage('Publish') {
-          echo "Publish build"
+          steps {
+             echo "Publish build"
 //        nexusPublisher nexusInstanceId: 'nxrm3', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: ["./target/struts2-rest-showcase.war"], mavenCoordinate: [artifactId: 'struts2-rest-showcase', groupId: 'org.apache.struts', packaging: 'war', version: '2.5.10']]], tagName: "IQ-Policy-Evaluation_${currentBuild.number}"
+          }
        }
    }
 }  
