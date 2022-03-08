@@ -4,6 +4,8 @@ pipeline {
          image 'maven:latest'
          args '-v $HOME/.m2:/root/.m2'
          // import groovy.json.*
+      }
+   }
 
    stages {
       stage('Preparation') {
@@ -25,6 +27,7 @@ pipeline {
                iqScanPatterns: [[scanPattern: 'target/struts2-rest-showcase.war']],
                enableDebugLogging: true, failBuildOnNetworkError: true
             sh "echo ${policyEvaluation.applicationCompositionReportUrl}"
+         }
       }
 
        stage('Create TAG') {
