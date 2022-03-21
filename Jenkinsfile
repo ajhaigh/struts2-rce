@@ -26,7 +26,7 @@ pipeline {
          steps {
             nexusPolicyEvaluation iqStage: 'build', iqApplication: 'struts2-rce__ajhaigh', 
                iqScanPatterns: [[scanPattern: 'target/struts2-rest-showcase-2.5.10.war']],
-               enableDebugLogging: true, failBuildOnNetworkError: true
+               enableDebugLogging: false, failBuildOnNetworkError: true
             // sh "echo ${policyEvaluation.applicationCompositionReportUrl}"
          }
       }
