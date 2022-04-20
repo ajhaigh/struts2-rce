@@ -1,7 +1,7 @@
 pipeline {
    agent {
       docker {
-         label 'docker'
+//         label 'docker'
          image 'maven:latest'
          // args '-v $HOME/.m2:/root/.m2'
          // import groovy.json.*
