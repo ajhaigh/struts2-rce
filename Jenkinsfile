@@ -1,9 +1,11 @@
+def policyEvaluation
+
 pipeline {
-   agent {
-      docker {
-//         label 'docker'
-         image 'maven:latest'
-         // args '-v $HOME/.m2:/root/.m2'
+  agent {
+    docker {
+      label 'docker'
+      image 'maven:latest'
+      args '-v $HOME/.m2:/root/.m2'
          // import groovy.json.*
       }
    }
@@ -25,10 +27,10 @@ pipeline {
 
       stage('IQ Policy Check') {
          steps {
-            nexusPolicyEvaluation iqStage: 'build', iqApplication: 'struts2-rce__ajhaigh', 
+            policyEvaluation = nexusPolicyEvaluation iqStage: 'build', iqApplication: 'struts2-rce__ajhaigh', 
                iqScanPatterns: [[scanPattern: 'target/struts2-rest-showcase-2.5.10.war']],
                enableDebugLogging: true, failBuildOnNetworkError: true
-            // sh "echo ${policyEvaluation.applicationCompositionReportUrl}"
+            sh "echo ${policyEvaluation.applicationCompositionReportUrl}"
          }
       }
 
