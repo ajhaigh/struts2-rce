@@ -42,7 +42,7 @@ jobs:
       - name: Nexus IQ for GitHub Actions
         uses: sonatype-nexus-community/iq-github-action@master
         with:
-          serverUrl: http://iq.ahaigh.ngrok.io
+          serverUrl: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
           applicationId: struts2-rce__ajhaigh
