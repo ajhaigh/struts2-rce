@@ -31,6 +31,7 @@
 
     <artifactId>struts2-rest-showcase</artifactId>
     <packaging>war</packaging>
+    <version>2.5.10</version>
     <name>Struts 2 Rest Showcase Webapp</name>
     <description>Struts 2 Rest Showcase Example</description>
 
