@@ -46,7 +46,7 @@ jobs:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          application-id: struts2-rce_GH_ajhaigh
+          application-id: struts2-rce-gh-ajhaigh
           stage: Build
           scan-targets: .
           ## target: ./target/
@@ -59,9 +59,9 @@ jobs:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          application-id: struts2-rce_GH_ajhaigh
+          application-id: struts2-rce-gh-ajhaigh
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: cyclonedx
           sbom-version: 1.5
           sbom-format: json
-          artifact-name: struts2-rce_GH_ajhaigh-sbom.json
+          artifact-name: struts2-rce-gh-ajhaigh-sbom.json
