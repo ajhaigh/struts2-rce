@@ -40,6 +40,7 @@ jobs:
 
       # Run a IQ scan
       - name: Nexus IQ for GitHub Actions
+        id: evaluate
         uses: sonatype/actions/evaluate@v1
         with:
           iq-server-url: https://iq.ahaigh.ngrok.io
