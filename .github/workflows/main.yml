@@ -40,18 +40,27 @@ jobs:
 
       # Run a IQ scan
       - name: Nexus IQ for GitHub Actions
-        uses: sonatype-nexus-community/iq-github-action@master
+        uses: sonatype/actions/evaluate@v1
         with:
           serverUrl: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          applicationId: struts2-rce__ajhaigh
+          applicationId: struts2-rce_GH_ajhaigh
           stage: Build
-          target: .
+          scan-targeta: .
           ## target: ./target/
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      # Fetch the SBOM file associated with the evaluation
+      - name: Fetch SBOM
+        uses: sonatype/actions/fetch-sbom@v1
+        if: ( success() || failure() ) && steps.evaluate.outputs.scan-id 
+        with:
+          iq-server-url: https://iq.ahaigh.ngrok.io
+          username: admin
+          password: ${{ secrets.STRUTS_SECRET }}
+          application-id: lstruts2-rce_GH_ajhaigh
+          scan-id: ${{ steps.evaluate.outputs.scan-id }}
+          sbom-standard: cyclonedx
+          sbom-version: 1.5
+          sbom-format: json
+          artifact-name: lstruts2-rce_GH_ajhaigh-sbom.json
