@@ -42,12 +42,12 @@ jobs:
       - name: Nexus IQ for GitHub Actions
         uses: sonatype/actions/evaluate@v1
         with:
-          serverUrl: https://iq.ahaigh.ngrok.io
+          iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          applicationId: struts2-rce_GH_ajhaigh
+          application-id: struts2-rce_GH_ajhaigh
           stage: Build
-          scan-targeta: .
+          scan-targets: .
           ## target: ./target/
 
       # Fetch the SBOM file associated with the evaluation
