@@ -64,4 +64,4 @@ jobs:
           sbom-standard: cyclonedx
           sbom-version: 1.5
           sbom-format: json
-          artifact-name: struts2-rce-gh-ajhaigh-sbom.json
+          artifact-name: struts2-rce-gh-ajhaigh-sbom
