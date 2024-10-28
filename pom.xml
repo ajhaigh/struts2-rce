@@ -37,11 +37,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>nexus</id>
-            <url>http://18.188.100.16:8081/repository/maven-snapshots/</url>
+            <url>http://127.0.0.1:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>nexus</id>
-            <url>http://18.188.100.16:8081/repository/maven-releases/</url>
+            <url>http://127.0.0.1:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 
@@ -120,7 +120,12 @@
             </exclusions>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+     </dependencies>
 
     <build>
         <finalName>struts2-rest-showcase</finalName>
@@ -173,10 +178,34 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+                <version>2.8.0</version>
+                <configuration>
+                    <externalReferences>
+                        <externalReference>
+                            <type>vulnerability-assertion</type>
+                            <url>https://logging.apache.org/cyclonedx/vdr.xml</url>
+                        </externalReference>
+                    </externalReferences>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>makeAggregateBom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <rat.skip>true</rat.skip>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-</project>
+ </project>
