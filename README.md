@@ -8,7 +8,7 @@ A realistic scenario where a reference project for a framework is deployed on a 
 
 Shows how easily every day decisions and multiple vulnerabilities in chain can be leveraged.
 
-### Usage:
+### Usage: 
 Pre-requisites:
 1. have a JDK installed,
 1. have Docker installed, Docker Desktop for Mac or Win
