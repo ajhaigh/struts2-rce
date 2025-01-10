@@ -47,7 +47,7 @@ jobs:
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
           application-id: struts2-rce-gh-ajhaigh
-          stage: Build
+          stage: Release
           scan-targets: .
           ## target: ./target/
 
