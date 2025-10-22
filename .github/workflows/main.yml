@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IQ_SERVER_URL: "http://iq.ahaigh.ngrok.io"
+      IQ_SERVER_URL: "https://iq.ahaigh.ngrok.io"
       APPLICATION_ID: "struts2-rce-gh-ajhaigh"
       APPLICATION_VERSION: "github_build_${{ github.run_number }}"
 
