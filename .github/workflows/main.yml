@@ -96,3 +96,6 @@ jobs:
 
           echo "Response:"
           cat response.json
+
+      - name: Build with Maven
+        run: mvn deploy
