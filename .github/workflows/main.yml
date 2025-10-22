@@ -51,7 +51,7 @@ jobs:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          application-id: "struts2-rce-gh-ajhaigh"
+          application-id: struts2-rce-gh-ajhaigh
           stage: Build
           scan-targets: .
           ## target: ./target/
@@ -65,12 +65,12 @@ jobs:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          application-id: "struts2-rce-gh-ajhaigh"
+          application-id: struts2-rce-gh-ajhaigh
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: cyclonedx
           sbom-version: 1.6
           sbom-format: json
-          artifact-name: "struts2-rce-gh-ajhaigh-sbom"
+          artifact-name: struts2-rce-gh-ajhaigh-sbom
 
 # ${{ steps.fetch-sbom.outputs.sbom-file-path }}
       - name: Upload SBOM to Sonatype IQ
