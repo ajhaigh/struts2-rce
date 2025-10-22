@@ -51,7 +51,7 @@ jobs:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          application-id: struts2-rce-gh-ajhaigh
+          application-id: ${APPLICATION_ID}
           stage: Build
           scan-targets: .
           ## target: ./target/
@@ -65,12 +65,12 @@ jobs:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-          application-id: struts2-rce-gh-ajhaigh
+          application-id: ${APPLICATION_ID}
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: cyclonedx
           sbom-version: 1.6
           sbom-format: json
-          artifact-name: struts2-rce-gh-ajhaigh-sbom
+          artifact-name: ${APPLICATION_ID}-sbom
 
 # ${{ steps.fetch-sbom.outputs.sbom-file-path }}
       - name: Upload SBOM to Sonatype IQ
@@ -79,10 +79,16 @@ jobs:
           IQ_PASSWORD: ${{ secrets.STRUTS_SECRET }}
         run: |
           echo "Uploading SBOM to Sonatype IQ..."
+
+          curl -s "${IQ_SERVER_URL}/api/v2/applications?publicId=${APPLICATION_ID}" -o 'target/application.json' -u "${IQ_USERNAME}:${IQ_PASSWORD}"
+          cat 'target/application.json'
+          APP_ID=$(jq -r '.applications[0].id' target/application.json)
+          echo "AppID: $APP_ID"
+
           echo "${{ steps.fetch-sbom.outputs.sbom-file-path }}"
           curl -s -w "\nHTTP Status: %{http_code}\n" \
             -F "file=@${{ steps.fetch-sbom.outputs.sbom-file-path }}" \
-            -F "applicationId=${APPLICATION_ID}" \
+            -F "applicationId=${APP_ID}" \
             -F "applicationVersion=${APPLICATION_VERSION}" \
             -u "${IQ_USERNAME}:${IQ_PASSWORD}" \
             "${IQ_SERVER_URL}/api/v2/sbom/import?ignoreValidationError=true" \
