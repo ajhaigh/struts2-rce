@@ -20,6 +20,11 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    env:
+      IQ_SERVER_URL: "http://iq.ahaigh.ngrok.io"
+      APPLICATION_ID: "struts2-rce-gh-ajhaigh"
+      APPLICATION_VERSION: "github_build_${{ github.run_number }}"
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
@@ -62,6 +67,24 @@ jobs:
           application-id: struts2-rce-gh-ajhaigh
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: cyclonedx
-          sbom-version: 1.5
+          sbom-version: 1.6
           sbom-format: json
-          artifact-name: struts2-rce-gh-ajhaigh-sbom
+          artifact-name: struts2-rce-gh-ajhaigh-sbom.json
+
+# ${{ steps.fetch-sbom.outputs.sbom-file-path }}
+      - name: Upload SBOM to Sonatype IQ
+        env:
+          IQ_USERNAME: admin
+          IQ_PASSWORD: ${{ secrets.STRUTS_SECRET }}
+        run: |
+          echo "Uploading SBOM to Sonatype IQ..."
+          curl -s -w "\nHTTP Status: %{http_code}\n" \
+            -F "file=@{{ steps.fetch-sbom.outputs.sbom-file-path }}" \
+            -F "applicationId=${APPLICATION_ID}" \
+            -F "applicationVersion=${APPLICATION_VERSION}" \
+            -u "${IQ_USERNAME}:${IQ_PASSWORD}" \
+            "${IQ_SERVER_URL}/api/v2/sbom/import?ignoreValidationError=true" \
+            -o response.json
+
+          echo "Response:"
+          cat response.json
