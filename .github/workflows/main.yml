@@ -70,7 +70,7 @@ jobs:
           sbom-standard: cyclonedx
           sbom-version: 1.6
           sbom-format: json
-          artifact-name: ${APPLICATION_ID}-sbom
+          artifact-name: "${APPLICATION_ID}-sbom"
 
 # ${{ steps.fetch-sbom.outputs.sbom-file-path }}
       - name: Upload SBOM to Sonatype IQ
