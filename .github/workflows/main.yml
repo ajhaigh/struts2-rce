@@ -69,7 +69,7 @@ jobs:
           sbom-standard: cyclonedx
           sbom-version: 1.6
           sbom-format: json
-          artifact-name: struts2-rce-gh-ajhaigh-sbom.json
+          artifact-name: struts2-rce-gh-ajhaigh-sbom
 
 # ${{ steps.fetch-sbom.outputs.sbom-file-path }}
       - name: Upload SBOM to Sonatype IQ
