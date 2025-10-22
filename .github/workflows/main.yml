@@ -34,11 +34,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Write Maven settings.xml
-        run: |
-          mkdir -p ~/.m2
-          echo "${{ secrets.MAVEN_SETTINGS }}" > ~/.m2/settings.xml
-
       - name: Build with Maven
         run: mvn package
 
@@ -102,6 +97,11 @@ jobs:
 
           echo "Response:"
           cat response.json
+
+      - name: Write Maven settings.xml
+        run: |
+          mkdir -p ~/.m2
+          echo "${{ secrets.MAVEN_SETTINGS }}" > ~/.m2/settings.xml
 
       - name: Build with Maven
         run: mvn deploy
