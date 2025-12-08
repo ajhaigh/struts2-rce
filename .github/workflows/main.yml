@@ -21,7 +21,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IQ_SERVER_URL: "https://iq.ahaigh.ngrok.io"
+      IQ_SERVER_URL: "https://nextera-energy-pov.iq.sonatype.app"
+      LOCAL_USERNAME: "sSfREWmi"
+      LOCAL_PASSWORD: "RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq"
+
+#      IQ_SERVER_URL: "https://iq.ahaigh.ngrok.io"
+#    LOCAL_USERNAME: "admin"
+#    LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
       APPLICATION_ID: "struts2-rce-gh-ajhaigh"
       APPLICATION_VERSION: "github_build_${{ github.run_number }}"
 
@@ -49,9 +55,11 @@ jobs:
         id: evaluate
         uses: sonatype/actions/evaluate@v1
         with:
-          iq-server-url: https://iq.ahaigh.ngrok.io
-          username: admin
-          password: ${{ secrets.STRUTS_SECRET }}
+          iq-server-url: ${IQ_SERVER_URL}
+#          username: admin
+#          password: ${{ secrets.STRUTS_SECRET }}
+          username: ${LOCAL_USERNAME}
+          password: ${LOCAL_PASSWORD}
           application-id: struts2-rce-gh-ajhaigh
           stage: Build
           scan-targets: .
@@ -63,9 +71,11 @@ jobs:
         uses: sonatype/actions/fetch-sbom@v1
         if: ( success() || failure() ) && steps.evaluate.outputs.scan-id 
         with:
-          iq-server-url: https://iq.ahaigh.ngrok.io
-          username: admin
-          password: ${{ secrets.STRUTS_SECRET }}
+          iq-server-url: ${IQ_SERVER_URL}
+#          username: admin
+#          password: ${{ secrets.STRUTS_SECRET }}
+          username: ${LOCAL_USERNAME}
+          password: ${LOCAL_PASSWORD}
           application-id: struts2-rce-gh-ajhaigh
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: cyclonedx
@@ -81,7 +91,7 @@ jobs:
         run: |
           echo "Uploading SBOM to Sonatype IQ..."
 
-          curl -s "${IQ_SERVER_URL}/api/v2/applications?publicId=${APPLICATION_ID}" -o 'target/application.json' -u "${IQ_USERNAME}:${IQ_PASSWORD}"
+          curl -s "${IQ_SERVER_URL}/api/v2/applications?publicId=${APPLICATION_ID}" -o 'target/application.json' -u "${LOCAL_USERNAME}:${LOCAL_PASSWORD}"
           cat 'target/application.json'
           APP_ID=$(jq -r '.applications[0].id' target/application.json)
           echo "AppID: $APP_ID"
