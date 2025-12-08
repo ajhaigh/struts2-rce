@@ -55,7 +55,7 @@ jobs:
         id: evaluate
         uses: sonatype/actions/evaluate@v1
         with:
-          iq-server-url: ${IQ_SERVER_URL}
+          iq-server-url: https://nextera-energy-pov.iq.sonatype.app
 #          username: admin
 #          password: ${{ secrets.STRUTS_SECRET }}
           username: ${LOCAL_USERNAME}
