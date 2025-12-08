@@ -58,8 +58,9 @@ jobs:
           iq-server-url: https://nextera-energy-pov.iq.sonatype.app
 #          username: admin
 #          password: ${{ secrets.STRUTS_SECRET }}
-          username: ${LOCAL_USERNAME}
-          password: ${LOCAL_PASSWORD}
+          username: sSfREWmi
+          password: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
+
           application-id: struts2-rce-gh-ajhaigh
           stage: Build
           scan-targets: .
