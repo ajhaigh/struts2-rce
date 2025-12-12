@@ -56,11 +56,12 @@ jobs:
         uses: sonatype/actions/evaluate@v1
         with:
           iq-server-url: https://iq.ahaigh.ngrok.io
+          username: admin
+          password: ${{ secrets.STRUTS_SECRET }}
+
 #          iq-server-url: https://nextera-energy-pov.iq.sonatype.app
-#          username: admin
-#          password: ${{ secrets.STRUTS_SECRET }}
-          username: sSfREWmi
-          password: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
+#          username: sSfREWmi
+#          password: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
 
           application-id: struts2-rce-gh-ajhaigh
           stage: Build
