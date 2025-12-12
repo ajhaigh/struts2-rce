@@ -21,13 +21,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IQ_SERVER_URL: https://nextera-energy-pov.iq.sonatype.app
-      LOCAL_USERNAME: sSfREWmi
-      LOCAL_PASSWORD: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
+#      IQ_SERVER_URL: https://nextera-energy-pov.iq.sonatype.app
+#      LOCAL_USERNAME: sSfREWmi
+#      LOCAL_PASSWORD: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
 
-#      IQ_SERVER_URL: "https://iq.ahaigh.ngrok.io"
-#    LOCAL_USERNAME: "admin"
-#    LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
+      IQ_SERVER_URL: "https://iq.ahaigh.ngrok.io"
+      LOCAL_USERNAME: "admin"
+      LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
       APPLICATION_ID: "struts2-rce-gh-ajhaigh"
       APPLICATION_VERSION: "github_build_${{ github.run_number }}"
 
