@@ -65,6 +65,7 @@ jobs:
           stage: Build
           scan-targets: .
           ## target: ./target/
+          upload-sarif-file: true
 
       # Fetch the SBOM file associated with the evaluation
       - name: Fetch SBOM
