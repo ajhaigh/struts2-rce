@@ -113,7 +113,7 @@ jobs:
             -F "file=@${{ steps.fetch-sbom.outputs.sbom-file-path }}" \
             -F "applicationId=${APP_ID}" \
             -F "applicationVersion=${APPLICATION_VERSION}" \
-            -u "${IQ_USERNAME}:${IQ_PASSWORD}" \
+            -u "${LOCAL_USERNAME}:${LOCAL_PASSWORD}" \
             "${IQ_SERVER_URL}/api/v2/sbom/import?ignoreValidationError=true" \
             -o response.json
 
