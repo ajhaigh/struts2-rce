@@ -34,7 +34,7 @@ jobs:
         uses: ./
         with:
           iq-server-url: ${{ env.IQ_SERVER_URL }}
-          username: ${{ env.LOCAL_USERNAME }}
+          username: ${{ secrets.STRUTS_USERNAME }}
           password: ${{ secrets.STRUTS_SECRET }}
           application-id: ${{ env.APPLICATION_ID }}
 
