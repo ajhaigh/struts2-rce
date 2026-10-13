@@ -53,7 +53,7 @@ jobs:
       # Run an IQ scan
       - name: Nexus IQ for GitHub Actions
         id: evaluate
-        uses: ./.git-hub/workflows
+        uses: ./
         with:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
