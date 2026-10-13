@@ -50,24 +50,26 @@ jobs:
 #      - name: Run a one-line script
 #        run: echo Hello, world!
 
-      # Run a IQ scan
+      # Run an IQ scan
       - name: Nexus IQ for GitHub Actions
         id: evaluate
-        uses: sonatype/actions/evaluate@v1
+        uses: ./.git-hub/workflows
         with:
           iq-server-url: https://iq.ahaigh.ngrok.io
           username: admin
           password: ${{ secrets.STRUTS_SECRET }}
-
-#          iq-server-url: https://nextera-energy-pov.iq.sonatype.app
-#          username: sSfREWmi
-#          password: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
-
           application-id: struts2-rce-gh-ajhaigh
-          stage: Build
-          scan-targets: .
-          ## target: ./target/
-          upload-sarif-file: true
+
+#        uses: sonatype/actions/evaluate@v1
+#        with:
+#          iq-server-url: https://iq.ahaigh.ngrok.io
+#          username: admin
+#          password: ${{ secrets.STRUTS_SECRET }}
+#          application-id: struts2-rce-gh-ajhaigh
+#          stage: Build
+#          scan-targets: .
+#          ## target: ./target/
+#          upload-sarif-file: true
 
       # Fetch the SBOM file associated with the evaluation
       - name: Fetch SBOM
