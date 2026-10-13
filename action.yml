@@ -1,0 +1,43 @@
+name: Nexus IQ Evaluation
+description: Run a Sonatype Nexus IQ evaluation for a GitHub Actions workflow.
+
+inputs:
+  iq-server-url:
+    description: URL of the Nexus IQ Server.
+    required: true
+  username:
+    description: Nexus IQ username. Pass this from a GitHub Actions secret.
+    required: true
+  password:
+    description: Nexus IQ password. Pass this from a GitHub Actions secret.
+    required: true
+  application-id:
+    description: Nexus IQ application ID to evaluate.
+    required: true
+  stage:
+    description: Nexus IQ evaluation stage.
+    required: false
+    default: Build
+  scan-targets:
+    description: Path or paths to scan.
+    required: false
+    default: .
+  upload-sarif-file:
+    description: Whether to upload a SARIF file.
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - name: Nexus IQ for GitHub Actions
+      id: evaluate
+      uses: sonatype/actions/evaluate@v1
+      with:
+        iq-server-url: ${{ inputs['iq-server-url'] }}
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+        application-id: ${{ inputs['application-id'] }}
+        stage: ${{ inputs.stage }}
+        scan-targets: ${{ inputs['scan-targets'] }}
+        upload-sarif-file: ${{ inputs['upload-sarif-file'] }}
