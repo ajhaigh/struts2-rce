@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IQ_SERVER_URL: https://iq.ahaigh.ngrok.io
-      LOCAL_USERNAME: admin
+      LOCAL_USERNAME: ${{ secrets.STRUTS_USERNAME }}
       LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
       APPLICATION_ID: struts2-rce-gh-ajhaigh
       APPLICATION_VERSION: github_build_${{ github.run_number }}
@@ -21,10 +21,10 @@ jobs:
 #      - uses: actions/checkout@v2
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           java-version: '11'
-          distribution: adopt
+#          distribution: adopt
 
       - name: Build with Maven
         run: mvn package
@@ -44,7 +44,7 @@ jobs:
         uses: sonatype/actions/fetch-sbom@v1
         with:
           iq-server-url: ${{ env.IQ_SERVER_URL }}
-          username: ${{ env.LOCAL_USERNAME }}
+          username: ${{ secrets.STRUTS_USERNAME }}
           password: ${{ secrets.STRUTS_SECRET }}
           application-id: ${{ env.APPLICATION_ID }}
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
