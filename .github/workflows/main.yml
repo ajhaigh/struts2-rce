@@ -1,116 +1,67 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [master]
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
     env:
-#      IQ_SERVER_URL: https://nextera-energy-pov.iq.sonatype.app
-#      LOCAL_USERNAME: sSfREWmi
-#      LOCAL_PASSWORD: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
-
-      IQ_SERVER_URL: "https://iq.ahaigh.ngrok.io"
-      LOCAL_USERNAME: "admin"
+      IQ_SERVER_URL: https://iq.ahaigh.ngrok.io
+      LOCAL_USERNAME: ${{ secrets.STRUTS_USERNAME }}
       LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
-      APPLICATION_ID: "struts2-rce-gh-ajhaigh"
-      APPLICATION_VERSION: "github_build_${{ github.run_number }}"
+      APPLICATION_ID: struts2-rce-gh-ajhaigh
+      APPLICATION_VERSION: github_build_${{ github.run_number }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: adopt
 
       - name: Build with Maven
         run: mvn package
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#      - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-#      - name: Run a one-line script
-#        run: echo Hello, world!
-
-      # Run an IQ scan
       - name: Nexus IQ for GitHub Actions
         id: evaluate
         uses: ./
         with:
-          iq-server-url: https://iq.ahaigh.ngrok.io
-          username: admin
+          iq-server-url: ${{ env.IQ_SERVER_URL }}
+          username: ${{ env.LOCAL_USERNAME }}
           password: ${{ secrets.STRUTS_SECRET }}
-          application-id: struts2-rce-gh-ajhaigh
+          application-id: ${{ env.APPLICATION_ID }}
 
-#        uses: sonatype/actions/evaluate@v1
-#        with:
-#          iq-server-url: https://iq.ahaigh.ngrok.io
-#          username: admin
-#          password: ${{ secrets.STRUTS_SECRET }}
-#          application-id: struts2-rce-gh-ajhaigh
-#          stage: Build
-#          scan-targets: .
-#          ## target: ./target/
-#          upload-sarif-file: true
-
-      # Fetch the SBOM file associated with the evaluation
       - name: Fetch SBOM
         id: fetch-sbom
+        if: (success() || failure()) && steps.evaluate.outputs.scan-id
         uses: sonatype/actions/fetch-sbom@v1
-        if: ( success() || failure() ) && steps.evaluate.outputs.scan-id 
         with:
-          iq-server-url: https://iq.ahaigh.ngrok.io
-          username: admin
+          iq-server-url: ${{ env.IQ_SERVER_URL }}
+          username: ${{ env.LOCAL_USERNAME }}
           password: ${{ secrets.STRUTS_SECRET }}
-
-#          iq-server-url: https://nextera-energy-pov.iq.sonatype.app
-#          username: sSfREWmi
-#          password: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
-
-          application-id: struts2-rce-gh-ajhaigh
+          application-id: ${{ env.APPLICATION_ID }}
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: cyclonedx
-          sbom-version: 1.6
+          sbom-version: '1.6'
           sbom-format: json
           artifact-name: struts2-rce-gh-ajhaigh-sbom
 
-# ${{ steps.fetch-sbom.outputs.sbom-file-path }}
       - name: Upload SBOM to Sonatype IQ
-        env:
-#          IQ_SERVER_URL: https://nextera-energy-pov.iq.sonatype.app
-#          LOCAL_USERNAME: sSfREWmi
-#          LOCAL_PASSWORD: RzC1eGEWCUf2d3rzRtxyTyLBnzOmY4NuY3jnsocHpQMq
-
-          IQ_SERVER_URL: "https://iq.ahaigh.ngrok.io"
-          LOCAL_USERNAME: "admin"
-          LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
+        if: always() && steps.fetch-sbom.outputs.sbom-file-path
         run: |
           echo "Uploading SBOM to Sonatype IQ..."
-
-          curl -s "${IQ_SERVER_URL}/api/v2/applications?publicId=${APPLICATION_ID}" -o 'target/application.json' -u "${LOCAL_USERNAME}:${LOCAL_PASSWORD}"
-          cat 'target/application.json'
+          curl -s "${IQ_SERVER_URL}/api/v2/applications?publicId=${APPLICATION_ID}" \
+            -o target/application.json \
+            -u "${LOCAL_USERNAME}:${LOCAL_PASSWORD}"
           APP_ID=$(jq -r '.applications[0].id' target/application.json)
-          echo "AppID: $APP_ID"
-
-          echo "${{ steps.fetch-sbom.outputs.sbom-file-path }}"
+          echo "AppID: ${APP_ID}"
           curl -s -w "\nHTTP Status: %{http_code}\n" \
             -F "file=@${{ steps.fetch-sbom.outputs.sbom-file-path }}" \
             -F "applicationId=${APP_ID}" \
@@ -118,14 +69,4 @@ jobs:
             -u "${LOCAL_USERNAME}:${LOCAL_PASSWORD}" \
             "${IQ_SERVER_URL}/api/v2/sbom/import?ignoreValidationError=true" \
             -o response.json
-
-          echo "Response:"
           cat response.json
-
-#      - name: Write Maven settings.xml
-#        run: |
-#          mkdir -p ~/.m2
-#          echo "${{ secrets.MAVEN_SETTINGS }}" > ~/.m2/settings.xml
-#
-#      - name: Build with Maven
-#        run: mvn deploy
