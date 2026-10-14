@@ -10,18 +10,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     env:
       IQ_SERVER_URL: https://iq.ahaigh.ngrok.io
-      LOCAL_USERNAME: ${{ secrets.STRUTS_USERNAME }}
-      LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
+      LOCAL_USERNAME: ${{ secrets.IQ_USERNAME }}
+      LOCAL_PASSWORD: ${{ secrets.IQ_PASSWORD }}
       APPLICATION_ID: struts2-rce-gh-ajhaigh
       APPLICATION_VERSION: github_build_${{ github.run_number }}
 
     steps:
-#      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: temurin
@@ -34,8 +35,8 @@ jobs:
         uses: ./
         with:
           iq-server-url: ${{ env.IQ_SERVER_URL }}
-          username: ${{ secrets.STRUTS_USERNAME }}
-          password: ${{ secrets.STRUTS_SECRET }}
+          username: ${{ env.LOCAL_USERNAME }}
+          password: ${{ env.LOCAL_PASSWORD }}
           application-id: ${{ env.APPLICATION_ID }}
 
       - name: Fetch SBOM
@@ -44,8 +45,8 @@ jobs:
         uses: sonatype/actions/fetch-sbom@v1
         with:
           iq-server-url: ${{ env.IQ_SERVER_URL }}
-          username: ${{ secrets.STRUTS_USERNAME }}
-          password: ${{ secrets.STRUTS_SECRET }}
+          username: ${{ env.LOCAL_USERNAME }}
+          password: ${{ env.LOCAL_PASSWORD }}
           application-id: ${{ env.APPLICATION_ID }}
           scan-id: ${{ steps.evaluate.outputs.scan-id }}
           sbom-standard: cyclonedx
