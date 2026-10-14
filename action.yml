@@ -29,6 +29,14 @@ inputs:
     description: Whether to upload a SARIF file.
     required: false
     default: 'true'
+  enable-reachability:
+    description: Enable Java/JVM Reachability Analysis.
+    required: false
+    default: 'true'
+  reachability-namespaces:
+    description: Space-delimited namespaces to scope Reachability Analysis to.
+    required: false
+    default: ''
 
 outputs:
   scan-id:
@@ -55,6 +63,8 @@ runs:
         stage: ${{ inputs.stage }}
         scan-targets: ${{ inputs['scan-targets'] }}
         upload-sarif-file: ${{ inputs['upload-sarif-file'] }}
+        enable-reachability: ${{ inputs['enable-reachability'] }}
+        reachability-namespaces: ${{ inputs['reachability-namespaces'] }}
 
     - name: Fetch SBOM
       id: fetch-sbom
