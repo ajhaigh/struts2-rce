@@ -67,7 +67,7 @@ runs:
         application-id: ${{ inputs['application-id'] }}
         scan-id: ${{ steps.evaluate.outputs.scan-id }}
         sbom-standard: cyclonedx
-        sbom-version: '1.7'
+        sbom-version: '1.6'
         sbom-format: json
         artifact-name: ${{ inputs['application-id'] }}-sbom
 
