@@ -27,6 +27,17 @@ inputs:
     required: false
     default: 'true'
 
+outputs:
+  scan-id:
+    description: Scan id result of the run operation.
+    value: ${{ steps.evaluate.outputs.scan-id }}
+  report-url:
+    description: Link to the analysis report in Lifecycle (IQ Server).
+    value: ${{ steps.evaluate.outputs.report-url }}
+  cli-exit-code:
+    description: Exit code returned by the IQ CLI.
+    value: ${{ steps.evaluate.outputs.cli-exit-code }}
+
 runs:
   using: composite
   steps:
