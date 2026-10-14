@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IQ_SERVER_URL: ${{ secrets.STRUTS_IQ_URL }}
-      LOCAL_USERNAME: ${{ secrets.STRUTS_USERNAME }}
-      LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
+      IQ_SERVER_URL: ${{ secrets.SONATYPE_IQ_URL }}
+      LOCAL_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      LOCAL_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
       APPLICATION_ID: struts2-rce-gh-ajhaigh
       APPLICATION_VERSION: github_build_${{ github.run_number }}
 
