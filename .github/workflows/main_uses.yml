@@ -39,36 +39,5 @@ jobs:
           password: ${{ env.LOCAL_PASSWORD }}
           application-id: ${{ env.APPLICATION_ID }}
           application-version: ${{ env.APPLICATION_VERSION }}
-
-#      - name: Fetch SBOM
-#        id: fetch-sbom
-#        if: (success() || failure()) && steps.evaluate.outputs.scan-id
-#        uses: sonatype/actions/fetch-sbom@v1
-#        with:
-#          iq-server-url: ${{ env.IQ_SERVER_URL }}
-#          username: ${{ env.LOCAL_USERNAME }}
-#          password: ${{ env.LOCAL_PASSWORD }}
-#          application-id: ${{ env.APPLICATION_ID }}
-#          scan-id: ${{ steps.evaluate.outputs.scan-id }}
-#          sbom-standard: cyclonedx
-#          sbom-version: '1.6'
-#          sbom-format: json
-#          artifact-name: struts2-rce-gh-ajhaigh-sbom
-
-#      - name: Upload SBOM to Sonatype IQ
-#        if: always() && steps.fetch-sbom.outputs.sbom-file-path
-#        run: |
-#          echo "Uploading SBOM to Sonatype IQ..."
-#          curl -s "${IQ_SERVER_URL}/api/v2/applications?publicId=${APPLICATION_ID}" \
-#            -o target/application.json \
-#            -u "${LOCAL_USERNAME}:${LOCAL_PASSWORD}"
-#          APP_ID=$(jq -r '.applications[0].id' target/application.json)
-#          echo "AppID: ${APP_ID}"
-#          curl -s -w "\nHTTP Status: %{http_code}\n" \
-#            -F "file=@${{ steps.fetch-sbom.outputs.sbom-file-path }}" \
-#            -F "applicationId=${APP_ID}" \
-#            -F "applicationVersion=${APPLICATION_VERSION}" \
-#            -u "${LOCAL_USERNAME}:${LOCAL_PASSWORD}" \
-#            "${IQ_SERVER_URL}/api/v2/sbom/import?ignoreValidationError=true" \
-#            -o response.json
-#          cat response.json
+#          enable-reachability: 'true'
+#          reachability-namespaces: 'com.xxx.yyy'
