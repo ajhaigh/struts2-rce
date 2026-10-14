@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IQ_SERVER_URL: https://iq.ahaigh.ngrok.io
+      IQ_SERVER_URL: ${{ secrets.STRUTS_IQ_SERVER }}
       LOCAL_USERNAME: ${{ secrets.STRUTS_USERNAME }}
       LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
       APPLICATION_ID: struts2-rce-gh-ajhaigh
