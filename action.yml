@@ -83,8 +83,8 @@ runs:
         echo "AppID: ${APP_ID}"
         curl -s -w "\nHTTP Status: %{http_code}\n" \
           -F "file=@${{ steps.fetch-sbom.outputs.sbom-file-path }}" \
-          -F "applicationId=${{ inputs['application-id'] }}" \
-          -F "applicationVersion=${{ inputs['application-id'] }}" \
+          -F "applicationId=${APP_ID}" \
+          -F "applicationVersion=${{ inputs['application-version'] }}" \
           -u "${{ inputs.username }}:${{ inputs.password }}" \
           "${{ inputs['iq-server-url'] }}/api/v2/sbom/import?ignoreValidationError=true" \
           -o response.json
