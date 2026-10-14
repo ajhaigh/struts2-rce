@@ -34,9 +34,9 @@ jobs:
         id: evaluate
         uses: ./
         with:
-#          iq-server-url: ${{ env.IQ_SERVER_URL }}
-#          username: ${{ env.LOCAL_USERNAME }}
-#          password: ${{ env.LOCAL_PASSWORD }}
+          iq-server-url: ${{ env.IQ_SERVER_URL }}
+          username: ${{ env.LOCAL_USERNAME }}
+          password: ${{ env.LOCAL_PASSWORD }}
           application-id: ${{ env.APPLICATION_ID }}
           application-version: ${{ env.APPLICATION_VERSION }}
 
