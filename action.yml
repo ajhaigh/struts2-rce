@@ -67,12 +67,13 @@ runs:
         application-id: ${{ inputs['application-id'] }}
         scan-id: ${{ steps.evaluate.outputs.scan-id }}
         sbom-standard: cyclonedx
-        sbom-version: '1.6'
+        sbom-version: '1.7'
         sbom-format: json
         artifact-name: ${{ inputs['application-id'] }}-sbom
 
     - name: Upload SBOM to Sonatype IQ
       if: always() && steps.fetch-sbom.outputs.sbom-file-path
+      shell: bash
       run: |
         echo "Uploading SBOM to Sonatype IQ..."
         curl -s "${{ inputs['iq-server-url'] }}/api/v2/applications?publicId=${{ inputs['application-id'] }}" \
