@@ -13,8 +13,8 @@ jobs:
 
     env:
       IQ_SERVER_URL: https://iq.ahaigh.ngrok.io
-      LOCAL_USERNAME: ${{ secrets.IQ_USERNAME }}
-      LOCAL_PASSWORD: ${{ secrets.IQ_PASSWORD }}
+      LOCAL_USERNAME: ${{ secrets.STRUTS_USERNAME }}
+      LOCAL_PASSWORD: ${{ secrets.STRUTS_SECRET }}
       APPLICATION_ID: struts2-rce-gh-ajhaigh
       APPLICATION_VERSION: github_build_${{ github.run_number }}
 
