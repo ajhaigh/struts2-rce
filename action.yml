@@ -14,6 +14,9 @@ inputs:
   application-id:
     description: Nexus IQ application ID to evaluate.
     required: true
+  application-version:
+    description: GitHub build/run number.
+    required: true
   stage:
     description: Nexus IQ evaluation stage.
     required: false
@@ -52,3 +55,36 @@ runs:
         stage: ${{ inputs.stage }}
         scan-targets: ${{ inputs['scan-targets'] }}
         upload-sarif-file: ${{ inputs['upload-sarif-file'] }}
+
+    - name: Fetch SBOM
+      id: fetch-sbom
+      if: (success() || failure()) && steps.evaluate.outputs.scan-id
+      uses: sonatype/actions/fetch-sbom@v1
+      with:
+        iq-server-url: ${{ inputs['iq-server-url'] }}
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+        application-id: ${{ inputs['application-id'] }}
+        scan-id: ${{ steps.evaluate.outputs.scan-id }}
+        sbom-standard: cyclonedx
+        sbom-version: '1.6'
+        sbom-format: json
+        artifact-name: ${{ inputs['application-id'] }}-sbom
+
+    - name: Upload SBOM to Sonatype IQ
+      if: always() && steps.fetch-sbom.outputs.sbom-file-path
+      run: |
+        echo "Uploading SBOM to Sonatype IQ..."
+        curl -s "${{ inputs['iq-server-url'] }}/api/v2/applications?publicId=${{ inputs['application-id'] }}" \
+          -o target/application.json \
+          -u "${{ inputs.username }}:${{ inputs.password }}"
+        APP_ID=$(jq -r '.applications[0].id' target/application.json)
+        echo "AppID: ${APP_ID}"
+        curl -s -w "\nHTTP Status: %{http_code}\n" \
+          -F "file=@${{ steps.fetch-sbom.outputs.sbom-file-path }}" \
+          -F "applicationId=${{ inputs['application-id'] }}" \
+          -F "applicationVersion=${{ inputs['application-id'] }}" \
+          -u "${{ inputs.username }}:${{ inputs.password }}" \
+          "${{ inputs['iq-server-url'] }}/api/v2/sbom/import?ignoreValidationError=true" \
+          -o response.json
+        cat response.json
