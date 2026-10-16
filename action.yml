@@ -52,6 +52,12 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Set up JDK 17
+      uses: actions/setup-java@v5
+      with:
+        java-version: '17'
+        distribution: temurin
+  
     - name: Nexus IQ for GitHub Actions
       id: evaluate
       uses: sonatype/actions/evaluate@v1
