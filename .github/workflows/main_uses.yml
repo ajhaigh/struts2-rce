@@ -15,7 +15,7 @@ jobs:
       IQ_SERVER_URL: ${{ secrets.SONATYPE_IQ_URL }}
       LOCAL_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       LOCAL_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-      APPLICATION_ID: struts2-rce-gh-ajhaigh
+      APPLICATION_ID: ${{ github.event.repository.name }}_gh_${{ github.repository_owner }}
       APPLICATION_VERSION: github_build_${{ github.run_number }}
 
     steps:
